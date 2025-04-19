@@ -6,11 +6,16 @@ import ChoreList from "../components/ChoreList.jsx";
 import "../css/styles.css";
 
 function Chores() {
+  const [chores, setchores] = React.useState([]);
+  const chores_completed = chores.filter(
+    (chore) => chore.is_completed === true
+  ).length;
+  const total_chores = chores.length;
   return (
     <div className="wrapper">
-      <ChoreHero chores_completed={0} total_chores={0} />
-      <ChoreForm />
-      <ChoreList chores={[]} />
+      <ChoreHero chores_completed={chores_completed} total_chores={total_chores} />
+      <ChoreForm setchores={setchores}/>
+      <ChoreList chores={chores} setchores={setchores} />
     </div>
   );
 }

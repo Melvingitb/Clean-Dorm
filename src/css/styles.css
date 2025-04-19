@@ -36,7 +36,6 @@ button {
 .wrapper {
   display: flex;
   flex-direction: column;
-  width: 70%;
 }
 @media (max-width: 510px) {
   .wrapper {
@@ -54,7 +53,8 @@ header {
   padding: 42px;
 }
 .chorehero_section {
-  border: 1px solid #c2b39a;
+  border: 1px solid #0d0d0d;
+  background-color: #4D7298;
   display: flex;
   align-items: center;
   justify-content: space-around;
@@ -65,7 +65,7 @@ header {
   border-radius: 11px;
 }
 .chorehero_section div:last-child {
-  background-color: #88ab33;
+  background-color: #B3D89C;
   width: 150px;
   height: 150px;
   border-radius: 75px;
@@ -88,8 +88,7 @@ header {
   width: 90%;
 }
 .choreform input {
-  background-color: #1f2937;
-  color: #fff;
+  color: #0d0d0d;
   width: 100%;
   height: 50px;
   outline: none;
@@ -101,7 +100,7 @@ header {
   width: 10%;
   height: 50px;
   border-radius: 11px;
-  background-color: #88ab33;
+  background-color: #B3D89C;
   border: none;
 }
 .chore_list {
@@ -125,7 +124,7 @@ header {
   max-width: 455px;
   border: 1px solid #c2b39a;
   font-size: 16px;
-  background-color: #0d0d0d;
+  background-color: #4D7298;
   color: #fff;
   padding: 12px;
 }
@@ -135,9 +134,14 @@ header {
   height: calc(100% - 12px);
   border: transparent;
 }
+.chore-details {
+  display: flex;
+  flex-direction: column;
+  margin-left: 12px;
+  min-width: 0; /* Important for text overflow */
+}
 .chore_items_left,
 .chore_items_right {
-  display: flex;
   align-items: center;
 }
 .chore_items_left {
@@ -146,6 +150,10 @@ header {
   color: #fff;
   gap: 12px;
   font-size: 16px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1; /* This allows it to take up available space */
+  min-width: 0; /* This ensures text truncation works */
 }
 .chore_items_right {
   gap: 4px;
@@ -154,6 +162,12 @@ header {
   background-color: transparent;
   color: #fff;
   border: none;
+  padding: 0; /* Remove padding */
+  display: flex; /* Ensure SVGs are properly aligned */
+  align-items: center;
+  justify-content: center;
+  width: 34px; /* Fixed width */
+  height: 34px; /* Fixed height */
 }
 .chore_items_right button svg {
   fill: #c2b39a;
