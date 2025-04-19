@@ -1,5 +1,12 @@
 import Canvas from '../components/Canvas'
 
+import { useState } from "react";
+import { signOut } from "firebase/auth";
+import { auth } from '../components/firebase';
+import { db } from "../components/firebase";
+import { useNavigate } from 'react-router-dom';
+import { collection, addDoc } from "firebase/firestore";
+
 function House() {
   const navigate = useNavigate();
 
@@ -88,7 +95,7 @@ function House() {
 
   return (
     <>
-      <Canvas />
+      <Canvas handleLogout={ handleLogout } />
     </>
   )
 }

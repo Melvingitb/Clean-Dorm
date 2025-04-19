@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Stage, Layer, Rect, Circle, Text, Transformer } from 'react-konva';
 import '../css/canvas.css';
 
-function Canvas() {
+function Canvas( { handleLogout } ) {
    const [shapes, setShapes] = useState([]);
    const [selectedId, setSelectedId] = useState(null);
    const [editingTextId, setEditingTextId] = useState(null);
@@ -167,6 +167,7 @@ function Canvas() {
          <button className="canvas-btn" onClick={deleteItem}>Delete Item</button>
          <button className="canvas-btn" onClick={clearCanvas}>Clear Canvas</button>
          <button className="canvas-btn">Save Canvas</button>
+         <button className="canvas-btn" onClick={handleLogout}>Logout</button>
          {error && <div id="error-msg">{error}</div>}
       </div>
 
