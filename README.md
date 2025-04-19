@@ -22,12 +22,14 @@ Welcome to Clean Dorm, a website that allows users to login/register for an acco
 ## :camera: Website Features
 1. Login/Register Page
 
-  <img src="" alt="" width="">
+  <img src="Login.png" alt="image of login page" width="600">
   
 2. Canvas to create blueprint
 
-  <img src="" alt="" width="">
+  <img src="Canvas.png" alt="image of canvas page" width="600">
   
 3. Chores page to add tasks for each page
 
-   <img src="" alt="" width="">
+  <img src="Chore.png" alt="image of chores page" width="600">
+
+
