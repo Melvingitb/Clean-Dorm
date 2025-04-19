@@ -166,6 +166,7 @@ function Canvas() {
          <button className="canvas-btn" onClick={addText}>Add Text</button>
          <button className="canvas-btn" onClick={deleteItem}>Delete Item</button>
          <button className="canvas-btn" onClick={clearCanvas}>Clear Canvas</button>
+         <button className="canvas-btn">Save Canvas</button>
          {error && <div id="error-msg">{error}</div>}
       </div>
 
