@@ -8,6 +8,8 @@ function Canvas() {
    const [editingTextId, setEditingTextId] = useState(null);
    const [editingValue, setEditingValue] = useState('');
    const [editingPosition, setEditingPosition] = useState({ x: 0, y: 0 });
+   const [shapeLabel, setShapeLabel] = useState('');
+   const [error, setError] = useState('');
    const stageRef = useRef(null);
    const trRef = useRef();
    const shapeRefs = useRef({});
@@ -36,6 +38,11 @@ function Canvas() {
    }, [selectedId]);
 
    const addRectangle = () => {
+      if (!shapeLabel.trim()) {
+         setError('Please enter a label before adding a shape!');
+         return;
+      }
+
       const newRect = {
       id: `rect-${shapes.length}`,
       type: 'rect',
@@ -45,11 +52,19 @@ function Canvas() {
       height: 60,
       fill: 'red',
       draggable: true,
+      label: shapeLabel,
       };
       setShapes([...shapes, newRect]);
+      setShapeLabel('');
+      setError('');
    };
 
    const addCircle = () => {
+      if (!shapeLabel.trim()) {
+         setError('Please enter a label before adding a shape!');
+         return;
+      }
+
       const newCircle = {
          id: `circle-${shapes.length}`,
          type: 'circle',
@@ -58,8 +73,11 @@ function Canvas() {
          radius: 40,
          fill: 'blue',
          draggable: true,
+         label: shapeLabel,
       };
       setShapes([...shapes, newCircle]);
+      setShapeLabel('');
+      setError('');
    };
 
    const addText = () => {
@@ -142,11 +160,13 @@ function Canvas() {
   return (
     <>
       <div id="btn-group">
-        <button className="canvas-btn" onClick={addRectangle}>Add Rectangle</button>
-        <button className="canvas-btn" onClick={addCircle}>Add Circle</button>
-        <button className="canvas-btn" onClick={addText}>Add Text</button>
-        <button className="canvas-btn" onClick={deleteItem}>Delete Item</button>
-        <button className="canvas-btn" onClick={clearCanvas}>Clear Canvas</button>
+         <input type="text" placeholder="Enter label for your shape" value={shapeLabel} onChange={(e) => setShapeLabel(e.target.value)}/>
+         <button className="canvas-btn" onClick={addRectangle}>Add Rectangle</button>
+         <button className="canvas-btn" onClick={addCircle}>Add Circle</button>
+         <button className="canvas-btn" onClick={addText}>Add Text</button>
+         <button className="canvas-btn" onClick={deleteItem}>Delete Item</button>
+         <button className="canvas-btn" onClick={clearCanvas}>Clear Canvas</button>
+         {error && <div id="error-msg">{error}</div>}
       </div>
 
       <div style={{ position: 'relative' }}>
@@ -165,33 +185,106 @@ function Canvas() {
          >
             <Layer>
                {shapes.map((shape) => {
-               if (!shapeRefs.current[shape.id]) {
-                  shapeRefs.current[shape.id] = React.createRef();
-               }
+                  if (!shapeRefs.current[shape.id]) {
+                     shapeRefs.current[shape.id] = React.createRef();
+                  }
 
-               const shapeRef = shapeRefs.current[shape.id];
+                  const shapeRef = shapeRefs.current[shape.id];
 
-               const shapeProps = {
-                  key: shape.id,
-                  x: shape.x,
-                  y: shape.y,
-                  draggable: shape.draggable,
-                  onClick: () => handleSelect(shape.id),
-                  onTap: () => handleSelect(shape.id),
-                  ref: shapeRef,
-                  onTransformEnd: (e) => handleTransform(shape.id, e.target),
-                  onDragEnd: (e) => handleTransform(shape.id, e.target),
-               };
+                  const shapeProps = {
+                     key: shape.id,
+                     x: shape.x,
+                     y: shape.y,
+                     draggable: shape.draggable,
+                     onClick: () => handleSelect(shape.id),
+                     onTap: () => handleSelect(shape.id),
+                     ref: shapeRef,
+                     onTransformEnd: (e) => handleTransform(shape.id, e.target),
+                     onDragEnd: (e) => handleTransform(shape.id, e.target),
+                  };
 
-               if (shape.type === 'rect') {
-                  return <Rect {...shapeProps} width={shape.width} height={shape.height} fill={shape.fill} />;
-               } else if (shape.type === 'circle') {
-                  return <Circle {...shapeProps} radius={shape.radius} fill={shape.fill} />;
-               } else if (shape.type === 'text') {
-                  return <Text {...shapeProps} text={shape.text} fontSize={shape.fontSize} fill={shape.fill} />;
-               }
+                  const elements = [];
 
-            return null;
+                  if (shape.type === 'rect') {
+                     elements.push(
+                        <Rect {...shapeProps} width={shape.width} height={shape.height} fill={shape.fill} />
+                     );
+                  } else if (shape.type === 'circle') {
+                     elements.push(
+                        <Circle {...shapeProps} radius={shape.radius} fill={shape.fill} />
+                     );
+                  } else if (shape.type === 'text') {
+                     elements.push(
+                        <Text {...shapeProps} text={shape.text} fontSize={shape.fontSize} fill={shape.fill} />
+                     );
+                  }
+              
+                  if (shape.label && shape.type == 'rect') {
+                     elements.push(
+                        <Text
+                           key={`${shape.id}-label`}
+                           x={shape.x+10}
+                           y={shape.y+10} 
+                           text={shape.label}
+                           fontSize={16}
+                           fill="black"
+                           fontStyle="bold"
+                     />
+                  );
+                  } else if (shape.label && shape.type == 'circle') {
+                     elements.push(
+                        <Text
+                           key={`${shape.id}-label`}
+                           x={shape.x-15}
+                           y={shape.y-15} 
+                           text={shape.label}
+                           fontSize={16}
+                           fill="black"
+                           fontStyle="bold"
+                        />
+                     );
+                  }
+              
+               return elements;
+               // if (shape.type === 'rect') {
+               //    return <Rect {...shapeProps} width={shape.width} height={shape.height} fill={shape.fill} />;
+               // } else if (shape.type === 'circle') {
+               //    return <Circle {...shapeProps} radius={shape.radius} fill={shape.fill} />;
+               // } else if (shape.type === 'text') {
+               //    return <Text {...shapeProps} text={shape.text} fontSize={shape.fontSize} fill={shape.fill} />;
+               // }
+
+            //    return (
+            //       <React.Fragment key={shape.id}>
+            //          {shape.type === 'rect' && (
+            //             <Rect {...shapeProps} width={shape.width} height={shape.height} fill={shape.fill} />
+            //          )}
+            //          {shape.type === 'circle' && (
+            //             <Circle {...shapeProps} radius={shape.radius} fill={shape.fill} />
+            //          )}
+            //          {shape.label && (
+            //             <Text x={shape.x} y={shape.y - 25} text={shape.label} fontSize={16} fill="black" align="center"/>
+            //          )}
+            //          {shape.type === 'text' && (
+            //             <Text {...shapeProps} text={shape.text} fontSize={shape.fontSize} fill={shape.fill} />
+            //          )}
+            //       </React.Fragment>
+            //    );
+            })}
+
+            {selectedId && (
+               <Transformer
+                  ref={trRef}
+                  boundBoxFunc={(oldBox, newBox) => {
+                     if (newBox.width < 5 || newBox.height < 5) {
+                        return oldBox;
+                     }
+                     return newBox;
+                  }}
+               />
+            )}
+
+            {/* return null;
          })}
 
          {selectedId && (
@@ -204,23 +297,16 @@ function Canvas() {
                   return newBox;
                }}
             />
-         )}
+         )} */}
          </Layer>
       </Stage>
 
       {editingTextId && (
          <textarea
+            id="text-editor"
             style={{
-               position: 'absolute',
                top: editingPosition.y,
                left: editingPosition.x,
-               fontSize: 20,
-               border: '1px solid #ddd',
-               padding: '4px',
-               resize: 'none',
-               background: 'white',
-               fontFamily: 'Arial',
-               zIndex: 10,
             }}
             value={editingValue}
             onChange={(e) => setEditingValue(e.target.value)}
