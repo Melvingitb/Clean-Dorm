@@ -1,12 +1,33 @@
-# React + Vite
+# :broom: :bed: Clean Dorm
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Welcome to Clean Dorm, a website that allows users to login/register for an account, create a blueprint of your living space, and add tasks for each room!
 
-Currently, two official plugins are available:
+### BroncoHacks 2025 Team Members:
+- Melvin Gitbumrungsin
+- Rob Ranit
+- Allison Ly
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## :computer: [Demo Video]()
 
-## Expanding the ESLint configuration
+## :gear: Tools/Resources
+- React JS
+- HTML/CSS
+- Javascript
+- Konva
+- Firebase
+- Visual Studio Code
+- GitHub
+- Flaticon
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## :camera: Website Features
+1. Login/Register Page
+
+  <img src="" alt="" width="">
+  
+2. Canvas to create blueprint
+
+  <img src="" alt="" width="">
+  
+3. Chores page to add tasks for each page
+
+   <img src="" alt="" width="">
