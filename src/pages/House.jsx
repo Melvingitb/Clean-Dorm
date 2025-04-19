@@ -66,6 +66,9 @@ function House() {
 
   return (
     <>
+      <div className="navbar">
+        <a href="/chores">Chores</a>
+      </div>
       <Canvas handleLogout={ handleLogout } handleSaveHouse={ handleSaveHouse } />
     </>
   )

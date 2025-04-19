@@ -12,11 +12,17 @@ function Chores() {
   ).length;
   const total_chores = chores.length;
   return (
+    <>
+    <div className="navbar">
+      <a href="/house">House</a>
+    </div>
+
     <div className="wrapper">
       <ChoreHero chores_completed={chores_completed} total_chores={total_chores} />
       <ChoreForm setchores={setchores}/>
       <ChoreList chores={chores} setchores={setchores} />
     </div>
+    </>
   );
 }
 
