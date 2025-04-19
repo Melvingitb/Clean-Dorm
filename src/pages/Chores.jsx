@@ -8,7 +8,7 @@ import "../css/styles.css";
 function Chores() {
   const [chores, setchores] = React.useState([]);
   const chores_completed = chores.filter(
-    (chore) => chore.is_completed === true
+    (chore) => chore.complete === true
   ).length;
   const total_chores = chores.length;
   return (

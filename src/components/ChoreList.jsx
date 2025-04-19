@@ -15,8 +15,6 @@ function ChoreList({ chores, setchores }) {
 }
 
 function Item({ item, setchores }) {
-  const [editing, setEditing] = React.useState(false);
-  const inputRef = React.useRef(null);
   const completechore = () => {
     setchores((prevchores) =>
       prevchores.map((chore) =>
@@ -59,7 +57,7 @@ function Item({ item, setchores }) {
           >
             {item?.title}
           </p>
-          
+
           {(item.room || item.time) && (
             <div className="chore-metadata">
               {item.room && (
