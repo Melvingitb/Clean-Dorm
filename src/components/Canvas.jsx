@@ -1,8 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Stage, Layer, Rect, Circle, Text, Transformer } from 'react-konva';
+
+import { auth, db } from "../components/firebase";
+import { collection, getDocs, Query, query, where, orderBy, limit } from "firebase/firestore";
+
 import '../css/canvas.css';
 
-function Canvas( { handleLogout } ) {
+function Canvas( { handleSaveHouse, handleLogout } ) {
    const [shapes, setShapes] = useState([]);
    const [selectedId, setSelectedId] = useState(null);
    const [editingTextId, setEditingTextId] = useState(null);
@@ -37,6 +41,60 @@ function Canvas( { handleLogout } ) {
       }
    }, [selectedId]);
 
+   useEffect(() => {
+      const fetchHouse = async () => {
+         console.log("FETCHHOUSECALLED");
+         try {
+            const user = auth.currentUser;
+
+            if (!user) {
+               alert("Must be logged in.");
+               return;
+            }
+
+            const q = query(collection(db, "Houses"), orderBy("createdAt", "desc"), limit(1));
+            const querySnapshot = await getDocs(q);
+            // TODO: Users can save multiple houses. Make it so that they only have one
+            const houses = querySnapshot.docs.map(doc => ({
+               id: doc.id,
+               ...doc.data()
+            }));
+
+            if (houses.length == 0) {
+               return;
+            }
+
+            console.log("HOUSES: ", houses);
+            console.log("LAYOUT:", houses[0].layout);
+            setShapes([...houses[0].layout]);
+            console.log("SHAPES:", shapes);
+         } catch (err) {
+            alert(`Error fetching House. Error: ${err}`);
+         }
+      }
+
+      fetchHouse();
+   }, []);
+
+   useEffect(() => {
+      console.log("Shapes updated:", shapes);
+   }, [shapes]);
+   
+
+
+
+   const handleExport = () => {
+      const stage = stageRef.current;
+      console.log("STAGE: ", stage);
+      if (!stage) {
+         console.error("Stage reference is not set.");
+         return;
+      }
+
+      //const json = stage.toJSON();
+      handleSaveHouse(shapes);
+   };
+
    const addRectangle = () => {
       if (!shapeLabel.trim()) {
          setError('Please enter a label before adding a shape!');
@@ -53,6 +111,7 @@ function Canvas( { handleLogout } ) {
       fill: 'red',
       draggable: true,
       label: shapeLabel,
+      name: shapeLabel
       };
       setShapes([...shapes, newRect]);
       setShapeLabel('');
@@ -74,6 +133,7 @@ function Canvas( { handleLogout } ) {
          fill: 'blue',
          draggable: true,
          label: shapeLabel,
+         name: shapeLabel
       };
       setShapes([...shapes, newCircle]);
       setShapeLabel('');
@@ -166,7 +226,7 @@ function Canvas( { handleLogout } ) {
          <button className="canvas-btn" onClick={addText}>Add Text</button>
          <button className="canvas-btn" onClick={deleteItem}>Delete Item</button>
          <button className="canvas-btn" onClick={clearCanvas}>Clear Canvas</button>
-         <button className="canvas-btn">Save Canvas</button>
+         <button className="canvas-btn" onClick={handleExport}>Save Canvas</button>
          <button className="canvas-btn" onClick={handleLogout}>Logout</button>
          {error && <div id="error-msg">{error}</div>}
       </div>
@@ -178,7 +238,7 @@ function Canvas( { handleLogout } ) {
             width={stageSize.width}
             height={stageSize.height}
             onMouseDown={(e) => {
-               if (editingTextId) return; // Don't deselect while editing
+               if (editingTextId) return;
                if (e.target === e.target.getStage()) {
                setSelectedId(null);
                setEditingTextId(null);

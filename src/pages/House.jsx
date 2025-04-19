@@ -5,9 +5,11 @@ import { signOut } from "firebase/auth";
 import { auth } from '../components/firebase';
 import { db } from "../components/firebase";
 import { useNavigate } from 'react-router-dom';
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 
 function House() {
+  const [currentHouse, setcurrentHouse] = useState(null);
+
   const navigate = useNavigate();
 
   const handleLogout = async () => {
@@ -19,56 +21,24 @@ function House() {
         }
      };
 
-  const [fakeHouse, setFakeHouse] = useState(null);
-
-  const setHouse = () => {
-    setFakeHouse({
-      "attrs": {
-        "width": 500,
-        "height": 500
-      },
-      "className": "Stage",
-      "children": [
-        {
-          "attrs": {},
-          "className": "Layer",
-          "children": [
-            {
-              "attrs": {
-                "x": 50,
-                "y": 60,
-                "width": 100,
-                "height": 100,
-                "fill": "blue",
-                "name": "Living Room"
-              },
-              "className": "Rect"
-            },
-            {
-              "attrs": {
-                "x": 200,
-                "y": 60,
-                "width": 40,
-                "height": 40,
-                "fill": "green",
-                "name": "Bathroom"
-              },
-              "className": "Rect"
-            }
-          ]
-        }
-      ]
-    });
+  const handleSaveHouse = async ( house ) => {
+    console.log("HANDLESAVEHOUSE CALLED");
+    saveHouseToFirebase(house);
   }
      
-  const saveHouseToFirebase = async () => {
+  const saveHouseToFirebase = async (house) => {
+    console.log("SAVEHOUSE TO FIREBASE CALLED");
+    console.log(typeof house);
     // Parse JSON to get array of room names
     let rooms = [];
 
-    let children = fakeHouse.children[0].children;
+    console.log("CHILDREN:", house);
 
-    children.forEach(function(element) {
-      rooms.push(element.attrs.name);
+    //let children = house.children[0].children;
+
+    console.log("GOT HERE");
+    house.forEach(function(element) {
+      rooms.push(element.name);
     });
 
     // save to Firebase
@@ -82,8 +52,9 @@ function House() {
 
       const docRef = await addDoc(collection(db, "Houses"), {
         userId: user.uid,
-        layout: fakeHouse,
-        rooms: rooms
+        layout: house,
+        rooms: rooms,
+        createdAt: serverTimestamp()
       });
 
       alert("House saved!");
@@ -95,7 +66,7 @@ function House() {
 
   return (
     <>
-      <Canvas handleLogout={ handleLogout } />
+      <Canvas handleLogout={ handleLogout } handleSaveHouse={ handleSaveHouse } />
     </>
   )
 }
