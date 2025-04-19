@@ -1,0 +1,62 @@
+body {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+   box-sizing: border-box;
+}
+
+#canvas-title {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   font-size: 48px;
+   margin: 10px;
+}
+
+#btn-group {
+   margin: 10px;
+}
+
+.canvas-btn {
+   background-color: #B3D89C;
+   color: black;
+   border-radius: 50px;
+   padding: 10px;
+   letter-spacing: 1px;
+   text-transform: uppercase;
+   margin: 5px;
+   border: 1px solid black;
+}
+
+.canvas-btn:active {
+   transform: scale(0.95);
+}
+
+.canvas-btn:hover {
+   background-color: black;
+   color: white;
+   cursor: pointer;
+}
+
+#error-msg {
+   font-style: bold;
+   font-size: 20px;
+   margin-bottom: 5px;
+   margin-top: 5px;
+}
+
+#canvas-stage {
+   background-color: white;
+   max-width: 100%;
+   border: 1px solid black;
+   border-radius: 5px;
+}
+
+#text-editor {
+   font-size: 20;
+   border: 1px solid white;
+   padding: 4px;
+   resize: none;
+   background: white;
+}
