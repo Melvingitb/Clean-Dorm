@@ -7,7 +7,7 @@ Welcome to Clean Dorm, a website that allows users to login/register for an acco
 - Rob Ranit
 - Allison Ly
 
-## :computer: [Demo Video]()
+## :computer: [Demo Video](https://youtu.be/T2hBC-pn0T4)
 
 ## :gear: Tools/Resources
 - React JS
