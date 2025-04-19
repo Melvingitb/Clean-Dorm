@@ -108,7 +108,7 @@ function Canvas( { handleSaveHouse, handleLogout } ) {
       y: stageSize.height / 2 - 30,
       width: 100,
       height: 60,
-      fill: 'red',
+      fill: '#4D7298',
       draggable: true,
       label: shapeLabel,
       name: shapeLabel
@@ -130,7 +130,7 @@ function Canvas( { handleSaveHouse, handleLogout } ) {
          x: stageSize.width / 2,
          y: stageSize.height / 2,
          radius: 40,
-         fill: 'blue',
+         fill: '#9DC3C2',
          draggable: true,
          label: shapeLabel,
          name: shapeLabel
@@ -308,30 +308,6 @@ function Canvas( { handleSaveHouse, handleLogout } ) {
                   }
               
                return elements;
-               // if (shape.type === 'rect') {
-               //    return <Rect {...shapeProps} width={shape.width} height={shape.height} fill={shape.fill} />;
-               // } else if (shape.type === 'circle') {
-               //    return <Circle {...shapeProps} radius={shape.radius} fill={shape.fill} />;
-               // } else if (shape.type === 'text') {
-               //    return <Text {...shapeProps} text={shape.text} fontSize={shape.fontSize} fill={shape.fill} />;
-               // }
-
-            //    return (
-            //       <React.Fragment key={shape.id}>
-            //          {shape.type === 'rect' && (
-            //             <Rect {...shapeProps} width={shape.width} height={shape.height} fill={shape.fill} />
-            //          )}
-            //          {shape.type === 'circle' && (
-            //             <Circle {...shapeProps} radius={shape.radius} fill={shape.fill} />
-            //          )}
-            //          {shape.label && (
-            //             <Text x={shape.x} y={shape.y - 25} text={shape.label} fontSize={16} fill="black" align="center"/>
-            //          )}
-            //          {shape.type === 'text' && (
-            //             <Text {...shapeProps} text={shape.text} fontSize={shape.fontSize} fill={shape.fill} />
-            //          )}
-            //       </React.Fragment>
-            //    );
             })}
 
             {selectedId && (
@@ -345,21 +321,6 @@ function Canvas( { handleSaveHouse, handleLogout } ) {
                   }}
                />
             )}
-
-            {/* return null;
-         })}
-
-         {selectedId && (
-            <Transformer
-               ref={trRef}
-               boundBoxFunc={(oldBox, newBox) => {
-                  if (newBox.width < 5 || newBox.height < 5) {
-                     return oldBox;
-                  }
-                  return newBox;
-               }}
-            />
-         )} */}
          </Layer>
       </Stage>
 
